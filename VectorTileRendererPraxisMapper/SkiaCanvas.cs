@@ -65,6 +65,10 @@ namespace VectorTileRendererPraxisMapper
         {
             canvas.Clear(style.Color);
         }
+        public void DrawBackground(SKColor style)
+        {
+            canvas.Clear(style);
+        }
 
         SKStrokeCap convertCap(SKStrokeCap cap)
         {
@@ -575,25 +579,17 @@ namespace VectorTileRendererPraxisMapper
         //    }
         //}
 
-        //public void DrawImage(Stream imageStream, Brush style)
-        //{
-        //    var bitmapImage = new BitmapImage();
-        //    bitmapImage.BeginInit();
-        //    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-        //    bitmapImage.StreamSource = imageStream;
-        //    bitmapImage.DecodePixelWidth = this.width;
-        //    bitmapImage.DecodePixelHeight = this.height;
-        //    bitmapImage.EndInit();
+        public void DrawImage(Stream imageStream, Brush style)
+        {
+            var bitmap = SKBitmap.Decode(imageStream);
+            SKImage img = SkiaSharp.SKImage.FromBitmap(bitmap);
+            canvas.DrawImage(img, new SKPoint(0, 0));
+        }
 
-        //    var image = toSKImage(bitmapImage);
+        public void DrawUnknown(List<List<Point>> geometry, Brush style)
+        {
 
-        //    canvas.DrawImage(image, new SKPoint(0, 0));
-        //}
-
-        //public void DrawUnknown(List<List<Point>> geometry, Brush style)
-        //{
-
-        //}
+        }
 
         public byte[] FinishDrawing()
         {
