@@ -15,45 +15,65 @@ namespace VectorTileRendererPraxisMapper
         //public Rect(Point location, Size size);
         public Rect(Point point1, Point point2)
         {
-
-            
+            Left = point1.X;
+            Bottom = point1.Y;
+            Top = point2.Y;
+            Right = point2.X;           
         }
         //public Rect(Point point, Vector vector);
         public Rect(double x, double y, double width, double height)
         {
-
+            //TODO: confirm this is the correct right/top logic.
+            Left = x;
+            Right = x + width;
+            Bottom = y;
+            Top = y + height;
         }
 
-        public static Rect Empty { get; }
-        public Point BottomRight { get; }
+        //public static Rect Empty { get; }
+        //public Point BottomRight { get; }
         //public Size Size { get; set; }
-        public Point Location { get; set; }
-        public bool IsEmpty { get; }
-        public double Width { get; set; }
-        public double Height { get; set; }
-        public Point BottomLeft { get; }
-        public double Left { get; }
-        public double Top { get; }
-        public double X { get; set; }
-        public double Right { get; }
-        public double Y { get; set; }
-        public Point TopRight { get; }
-        public double Bottom { get; }
-        public Point TopLeft { get; }
+//        public Point Location { get; set; }
+        //public bool IsEmpty { get; }
+        //public double Width { get; set; }
+        //public double Height { get; set; }
+        //public Point BottomLeft { get; }
+        public double Left { get; set; }
+        public double Top { get; set; }
+        //public double X { get; set; }
+        public double Right { get; set; }
+        //public double Y { get; set; }
+        //public Point TopRight { get; }
+        public double Bottom { get; set; }
+        //public Point TopLeft { get; }
 
         internal bool IntersectsWith(Rect lineRect)
         {
-            throw new NotImplementedException();
+            var left = Math.Max(Left, lineRect.Left);
+            var right = Math.Max(Right, lineRect.Right);
+            var top = Math.Max(Top, lineRect.Top);
+            var bottom = Math.Max(Bottom, lineRect.Bottom);
+
+            if (left < right || top < bottom)
+                return true;
+
+            return false;
         }
 
-        internal void Inflate(int v1, int v2)
+        internal void Inflate(int width, int height)
         {
-            throw new NotImplementedException();
+            Left -= width;
+            Right += width;
+            Top += height;
+            Bottom -= height;
         }
 
         internal bool Contains(Rect r)
         {
-            throw new NotImplementedException();
+            if (r.Left > Left && r.Right < Right && r.Top < Top && r.Bottom > Bottom)
+                return true;
+
+            return false;
         }
     }
 }
